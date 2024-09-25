@@ -248,7 +248,7 @@ class Pyraminx:
         members = inspect.getmembers(puzzle.__class__, predicate=inspect.isfunction)
         non_moves = [Pyraminx.__init__, Pyraminx.print, Pyraminx.Randomize]
         moves = [func for name, func in members if func not in non_moves]
-        for i in range(num_moves.get()):
+        for i in range(num_moves):
             random_move = random.choice(moves)
             random_move(puzzle)
             print(random_move)
