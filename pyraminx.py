@@ -244,13 +244,13 @@ class Pyraminx:
     """
     Takes user input and makes that many clockwise moves in order to randomize the puzzle
     """
-    def Randomize(puzzle, num_moves):
-        members = inspect.getmembers(puzzle.__class__, predicate=inspect.isfunction)
+    def Randomize(self, num_moves):
+        members = inspect.getmembers(self.__class__, predicate=inspect.isfunction)
         non_moves = [Pyraminx.__init__, Pyraminx.print, Pyraminx.Randomize]
         moves = [func for name, func in members if func not in non_moves]
         for i in range(num_moves):
             random_move = random.choice(moves)
-            random_move(puzzle)
+            random_move(self)
             print(random_move)
 
 """
@@ -359,7 +359,7 @@ class GUI:
         
    
     def visualizeRandomize(self):
-        self.pyraminx.Randomize(self.num_moves)
+        self.pyraminx.Randomize(self.num_moves.get())
         self.updateBoard()
 
     def draw_sticker(self, x, y, color, id):
