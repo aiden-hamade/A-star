@@ -14,7 +14,7 @@ def ColorsPerSide(puzzle):
     for side in range(puzzle.array.shape[1]):
         colors = set()
         for triangle in range(puzzle.array.shape[0]):
-            colors.add(puzzle.array[triangle][side])
+            colors.add(puzzle.array[triangle, side])
         colors_per_side.append(len(colors))
 
     return max(colors_per_side) - 1
