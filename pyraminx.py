@@ -42,6 +42,12 @@ class Pyraminx:
                 print(f"'{item.color}' ", end="")
             print()
 
+    def isSolved(self, puzzle) -> bool:
+        for row in puzzle.array:
+            if not (row[0].color == 'red' and row[1].color == 'blue' and row[2].color == 'green' and row[3].color == 'yellow'):
+                return False
+    
+        return True
 
     """
     The following functions are legal moves in the 4x4x4 Pyraminx puzzle.
@@ -241,13 +247,16 @@ class Pyraminx:
         self.array[7, 1] = bottom_temp[3]
         self.array[3, 1] = bottom_temp[4]
     
+    def find_moves(self):
+        members = inspect.getmembers(self.__class__, predicate=inspect.isfunction)
+        non_moves = [Pyraminx.__init__, Pyraminx.print, Pyraminx.Randomize, Pyraminx.find_moves, Pyraminx.isSolved]
+        moves = [func for name, func in members if func not in non_moves]
+        return moves
     """
     Takes user input and makes that many clockwise moves in order to randomize the puzzle
     """
     def Randomize(self, num_moves):
-        members = inspect.getmembers(self.__class__, predicate=inspect.isfunction)
-        non_moves = [Pyraminx.__init__, Pyraminx.print, Pyraminx.Randomize]
-        moves = [func for name, func in members if func not in non_moves]
+        moves = self.find_moves()
         for i in range(num_moves):
             random_move = random.choice(moves)
             random_move(self)

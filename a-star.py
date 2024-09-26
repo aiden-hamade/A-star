@@ -1,11 +1,15 @@
 from pyraminx import Pyraminx
+import heapq
 
-def a():
-    return 'solution'
+def astar(puzzle):
+    config = create_tuple(puzzle)
+    heapq.pushheap(config)
+
+    #while not heapq.empty():
+
+    return 0
 
 
-def heuristic():
-    return 'g()'
 
 #heuristic: max(number colors per side) - 1
 def ColorsPerSide(puzzle: Pyraminx) -> int: 
@@ -19,7 +23,13 @@ def ColorsPerSide(puzzle: Pyraminx) -> int:
         #print(colors)
 
     return max(colors_per_side) - 1
-        
+
+
+def create_tuple(puzzle):
+    h = ColorsPerSide(puzzle)
+    return tuple(h, puzzle)
+
+
 def GenerateRandomInstances(k: int):
     random_puzzles = []
     
@@ -31,7 +41,7 @@ def GenerateRandomInstances(k: int):
     return random_puzzles
 
 def main():
-    puzzles = GenerateRandomInstances(2)
+    puzzles = GenerateRandomInstances(4)
     puz = []
     for i in range(len(puzzles)):
         colors_per_side = ColorsPerSide(puzzles[i])
