@@ -42,8 +42,8 @@ class Pyraminx:
                 print(f"'{item.color}' ", end="")
             print()
 
-    def isSolved(self, puzzle) -> bool:
-        for row in puzzle.array:
+    def isSolved(self) -> bool:
+        for row in self.array:
             if not (row[0].color == 'red' and row[1].color == 'blue' and row[2].color == 'green' and row[3].color == 'yellow'):
                 return False
     
