@@ -12,7 +12,7 @@ class PuzzleState:
         # We don't want to compare PuzzleState objects, so this just always returns False
         return len(self.path)
 
-def astar(puzzle, max_iterations):
+def astar(puzzle):
     pq = []
     visited = set()
 
@@ -28,28 +28,25 @@ def astar(puzzle, max_iterations):
     heapq.heappush(pq, start)
     visited.add(root.array.tobytes())
     move_num = 0
-    iteration = 0
-    while pq and move_num < max_iterations:
+    while pq:
         f, g, puzzle = heapq.heappop(pq)
         config = puzzle.puzzle
         path = puzzle.path
 
         if config.isSolved():
-            return path
+            return path, move_num
         for move in config.find_moves():
             new_state = deepcopy(config)
             new_state = make_move(new_state, move)
             new_g = g + 1
             new_f = ColorsPerSide(new_state) + len(path)
-            print(f'move: {move}, new_f {new_f}, move: {move_num}')
             new_path = path + [move]
 
             new_node = (new_f, new_g, PuzzleState(new_state, new_path))
+            move_num = move_num + 1
             if all(not np.array_equal(new_state.array, array) for array in visited) :
                 heapq.heappush(pq, new_node)
                 visited.add(new_state.array.tobytes())
-        move_num = move_num + 1
-        iteration = iteration + 1
     return None #no solution found
 
 def out_of_place_triangles(puzzle: Pyraminx) -> int:
@@ -103,15 +100,16 @@ def GenerateRandomInstances(k: int) -> list:
     return random_puzzles
 
 def main():
-    puzzles = GenerateRandomInstances(6)
+    puzzles = GenerateRandomInstances(7)
     puz = []
     for i in range(len(puzzles)):
         colors_per_side = ColorsPerSide(puzzles[i])
         puz.append(colors_per_side)
     print(puz)
 
-    path = astar(puzzles[0], 10000)
-    print(path)
+    for puzzle in puzzles:
+        path, width = astar(puzzle)
+        print(f'path: {path}, width at solution: {width}')
 
 
 if __name__ == "__main__":
