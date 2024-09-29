@@ -42,6 +42,13 @@ class Pyraminx:
                 print(f"'{item.color}' ", end="")
             print()
 
+    def extract_array(self):
+        arr = []
+        for row in self.array:
+            for item in row:
+                arr.append(item.color)
+        return tuple(arr)
+
     def isSolved(self) -> bool:
         for row in self.array:
             if not (row[0].color == 'red' and row[1].color == 'blue' and row[2].color == 'green' and row[3].color == 'yellow'):
@@ -249,7 +256,7 @@ class Pyraminx:
     
     def find_moves(self):
         members = inspect.getmembers(self.__class__, predicate=inspect.isfunction)
-        non_moves = [Pyraminx.__init__, Pyraminx.print, Pyraminx.Randomize, Pyraminx.find_moves, Pyraminx.isSolved]
+        non_moves = [Pyraminx.__init__, Pyraminx.print, Pyraminx.Randomize, Pyraminx.find_moves, Pyraminx.isSolved, Pyraminx.extract_array]
         moves = [func for name, func in members if func not in non_moves]
         return moves
     """
