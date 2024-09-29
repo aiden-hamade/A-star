@@ -26,7 +26,7 @@ def astar(puzzle):
     #priority queue stores f, config, and path
     start = (f, g, PuzzleState(root, path))
     heapq.heappush(pq, start)
-    visited.add(root.array.tobytes())
+    visited.add(root.extract_array())
     move_num = 0
     while pq:
         f, g, puzzle = heapq.heappop(pq)
@@ -44,9 +44,9 @@ def astar(puzzle):
 
             new_node = (new_f, new_g, PuzzleState(new_state, new_path))
             move_num = move_num + 1
-            if all(not np.array_equal(new_state.array, array) for array in visited) :
+            if new_state.extract_array() not in visited:
                 heapq.heappush(pq, new_node)
-                visited.add(new_state.array.tobytes())
+                visited.add(new_state.extract_array())
     return None #no solution found
 
 def out_of_place_triangles(puzzle: Pyraminx) -> int:
@@ -100,7 +100,7 @@ def GenerateRandomInstances(k: int) -> list:
     return random_puzzles
 
 def main():
-    puzzles = GenerateRandomInstances(7)
+    puzzles = GenerateRandomInstances(6)
     puz = []
     for i in range(len(puzzles)):
         colors_per_side = ColorsPerSide(puzzles[i])
